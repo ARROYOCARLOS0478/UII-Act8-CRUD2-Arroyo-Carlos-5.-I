@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles del Producto: {{ producto.nombre }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; color: #343a40; }
+        .detail-card {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .detail-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #e9ecef;
+            align-items: baseline;
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #495057;
+            min-width: 120px;
+            flex-shrink: 0;
+            padding-right: 15px;
+        }
+        .detail-value {
+            flex-grow: 1;
+            word-wrap: break-word;
+        }
+        .actions-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+        .editar { background-color: #007BFF; }
+        .editar:hover { background-color: #0056b3; }
+        .borrar { background-color: #DC3545; }
+        .borrar:hover { background-color: #c82333; }
+        .back { background-color: #6c757d; }
+        .back:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+    <div class="detail-card">
+        <h1>Detalles del Producto: {{ producto.nombre }}</h1>
+
+        <div class="detail-item">
+            <span class="detail-label">ID del Producto:</span>
+            <span class="detail-value">{{ producto.id }}</span> {# Usamos 'id' para la PK del producto #}
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Nombre:</span>
+            <span class="detail-value">{{ producto.nombre }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Descripción:</span>
+            <span class="detail-value">{{ producto.descripcion|default:"No especificado" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Precio:</span>
+            <span class="detail-value">${{ producto.precio }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Stock:</span>
+            <span class="detail-value">{{ producto.stock }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Modelo:</span>
+            <span class="detail-value">{{ producto.modelo|default:"No especificado" }}</span>
+        </div>
+
+        <div class="actions-container">
+            <a href="{% url 'editar_producto' id_producto=producto.id %}" class="btn editar">Editar Producto</a>
+            <a href="{% url 'borrar_producto' id_producto=producto.id %}" class="btn borrar">Borrar Producto</a>
+            <a href="{% url 'listar_productos' %}" class="btn back">Volver al listado</a>
+        </div>
+    </div>
+</body>
+</html>

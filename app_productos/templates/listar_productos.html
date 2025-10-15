@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        h1 { color: #007BFF; margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #e9ecef; font-weight: bold; color: #495057; }
+        td { font-size: 0.95em; }
+        .btn {
+            margin: 3px;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: white;
+            border-radius: 4px;
+            display: inline-block;
+            font-size: 0.85em;
+            transition: background-color 0.2s ease;
+        }
+        .editar { background-color: #007BFF; }
+        .editar:hover { background-color: #0056b3; }
+        .borrar { background-color: #DC3545; }
+        .borrar:hover { background-color: #c82333; }
+        .ver { background-color: #6c757d; }
+        .ver:hover { background-color: #5a6268; }
+        .agregar {
+            background-color: #28A745;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+        .agregar:hover { background-color: #218838; }
+        .no-records {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listado de Productos BYD Arroyo Carlos 5.-I</h1>
+    <a href="{% url 'agregar_producto' %}" class="btn agregar">Agregar Nuevo Producto</a> {# Usamos 'url' tag #}
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Modelo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.descripcion|truncatechars:50|default:"N/A" }}</td> {# Corta la descripción si es muy larga #}
+                <td>${{ producto.precio }}</td>
+                <td>{{ producto.stock }}</td>
+                <td>{{ producto.modelo|default:"N/A" }}</td>
+                <td>
+                    <a href="{% url 'ver_producto' id_producto=producto.id %}" class="btn ver">Ver</a> {# Usamos 'id' para la PK #}
+                    <a href="{% url 'editar_producto' id_producto=producto.id %}" class="btn editar">Editar</a>
+                    <a href="{% url 'borrar_producto' id_producto=producto.id %}" class="btn borrar">Borrar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="no-records">No hay productos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

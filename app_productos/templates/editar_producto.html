@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1 { color: #333; margin-bottom: 25px; }
+        form { max-width: 500px; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-top: 20px; }
+        label { display: block; margin: 10px 0 5px; font-weight: bold; color: #555; }
+        input[type="text"],
+        input[type="number"], /* Añadido para precio y stock */
+        textarea {
+            width: calc(100% - 20px); /* Ajuste para el padding total */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        button[type="submit"] {
+            background-color: #007BFF; /* Color azul para actualizar */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #6c757d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <h1>Editar Producto: {{ producto.nombre }}</h1> {# Muestra el nombre del producto que se edita #}
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_nombre">Nombre del Producto:</label>
+        <input type="text" id="id_nombre" name="nombre" value="{{ producto.nombre }}" required>
+
+        <label for="id_descripcion">Descripción:</label>
+        <textarea id="id_descripcion" name="descripcion">{{ producto.descripcion|default_if_none:'' }}</textarea> {# Campo opcional #}
+
+        <label for="id_precio">Precio:</label>
+        <input type="number" id="id_precio" name="precio" step="0.01" value="{{ producto.precio }}" required> {# type="number" para precios #}
+
+        <label for="id_stock">Stock:</label>
+        <input type="number" id="id_stock" name="stock" value="{{ producto.stock }}"> {# type="number" para stock #}
+
+        <label for="id_modelo">Modelo:</label>
+        <input type="text" id="id_modelo" name="modelo" value="{{ producto.modelo|default_if_none:'' }}"> {# Campo opcional #}
+
+        <button type="submit">Actualizar Producto</button>
+    </form>
+    <a href="{% url 'listar_productos' %}" class="back-link">Volver al listado de productos</a>
+</body>
+</html>

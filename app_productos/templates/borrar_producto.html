@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Borrado de Producto</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; color: #343a40; }
+        .confirmation-box {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #dc3545; /* Rojo para advertencia */
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .info-detail {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .info-detail strong {
+            display: inline-block;
+            width: 90px; /* Ajustado para que el texto de la etiqueta sea consistente */
+            color: #495057;
+        }
+        .btn {
+            padding: 12px 25px;
+            text-decoration: none;
+            color: white;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .confirmar { background-color: #DC3545; }
+        .confirmar:hover { background-color: #c82333; }
+        .cancelar { background-color: #6c757d; }
+        .cancelar:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+    <div class="confirmation-box">
+        <h1>¿Estás seguro de borrar este producto?</h1>
+        <p>Estás a punto de eliminar permanentemente la siguiente información del producto:</p>
+        <div class="info-detail">
+            <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+            <p><strong>Descripción:</strong> {{ producto.descripcion|default:"N/A" }}</p> {# Campo opcional #}
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            <p><strong>Stock:</strong> {{ producto.stock }}</p>
+            <p><strong>Modelo:</strong> {{ producto.modelo|default:"N/A" }}</p> {# Campo opcional #}
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn confirmar">Sí, Borrar Definitivamente</button>
+        </form>
+        <a href="{% url 'listar_productos' %}" class="btn cancelar">Cancelar</a>
+    </div>
+</body>
+</html>
